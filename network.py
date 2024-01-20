@@ -6,29 +6,27 @@ import numpy as np
 import graphs
 
 # Create a graph
-n_nodes = 10
-k = 4  # Number of nearest neighbors
-p = 0.5  # Probability of rewiring
-G = graphs.generate_weighted_small_world(n_nodes, k, p)
+n_nodes = 5
+# k = 4  # Number of nearest neighbors for small world
+# p = 0.5  # Probability of rewiring for small world
+# G, pos = graphs.generate_weighted_small_world(n_nodes, k, p)
 
-edges = [(1, 2, 1.0), (2, 3, 1.0), (3, 4, 1.0), (1, 4, 4.0), (2, 4, 2.5)]
-G.add_weighted_edges_from(edges)
-
-pos = nx.spring_layout(G)  # positions for all nodes
+m_nodes = 5
+G, pos = graphs.generate_example_city()
 
 # Dijkstra's algorithm
-path = nx.dijkstra_path(G, source=1, target=4)
+path = nx.dijkstra_path(G, source=1, target=8)
 path_edges = list(zip(path, path[1:]))
 
 # Prepare plot
 fig, ax = plt.subplots()
 plt.axis('off')
 
-# Draw the base graph (nodes, edges, labels)
-nx.draw_networkx_nodes(G, pos, node_size=700)
-nx.draw_networkx_edges(G, pos, edgelist=edges, width=6)
-nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
-nx.draw_networkx_edge_labels(G, pos, edge_labels={(u, v): d["weight"] for u, v, d in G.edges(data=True)})
+nx.draw(G, pos, with_labels=False, node_size=700, node_color='lightblue')
+nx.draw_networkx_labels(G, pos, {i: G.nodes[i]['label'] for i in G.nodes()}, font_size=10)
+edge_labels = nx.get_edge_attributes(G, 'weight')
+nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+plt.title("City Train Stations")
 
 # Create a LineCollection for the path, initially empty
 lc = LineCollection([], colors='r', linewidths=6)
