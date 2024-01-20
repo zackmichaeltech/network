@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+from matplotlib.animation import FuncAnimation, PillowWriter
 from matplotlib.collections import LineCollection
 import numpy as np
 import graphs
@@ -44,5 +44,8 @@ def update(num):
 
 # Animate
 ani = FuncAnimation(fig, update, frames=len(path_edges) + 1, interval=1000, blit=True)
+
+# Save the animation as a gif
+ani.save('city_path_animation.gif', writer=PillowWriter(fps=2))
 
 plt.show()
