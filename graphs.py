@@ -90,13 +90,14 @@ def generate_example_city():
 
     # Define edges between nodes (u, v) and assign random weights
     edges = [
-        (0, 1), (0, 2), (1, 4), (2, 3), (2, 8), 
-        (3, 4), (3, 5), (3, 6), (3, 8), (4, 9),
-        (5, 6), (7, 8)
+        (0, 1, "A", 7), (0, 2, "B", 7), (1, 4, "C", 4), 
+        (2, 3, "D", 9), (2, 8, "E", 2), (3, 4, "F", 4),
+        (3, 5, "G", 10), (3, 6, "H", 2), (3, 8, "I", 7),
+        (4, 9, "J", 7), (5, 6, "K", 7), (7, 8, "L", 9)
     ]
 
-    for (u, v) in edges:
-        G.add_edge(u, v, weight=random.randint(1, 10))
+    for (u, v, name, weight) in edges:
+        G.add_edge(u, v, name=name, weight=weight)
 
     # Extract positions from node attributes for plotting
     pos = nx.get_node_attributes(G, 'pos')
